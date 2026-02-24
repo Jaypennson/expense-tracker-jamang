@@ -302,7 +302,7 @@ const [formError, setFormError] = useState("")
 
       {/* Date Filter Tabs */}
       <Card>
-        <CardContent className="pt-6">
+        <CardContent className="px-6">
           <div className="flex gap-2 flex-wrap">
             <Button
               variant={dateFilter === 'daily' ? 'default' : 'outline'}
@@ -581,7 +581,7 @@ const [formError, setFormError] = useState("")
 
       {/* Add/Edit Dialog */}
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="sm:max-w-[500px]">
+        <DialogContent className="sm:max-w-[500px] max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>
               {editingIncome ? "Edit Transaction" : "Add Transaction"}
@@ -596,30 +596,30 @@ const [formError, setFormError] = useState("")
             <div className="grid gap-4 py-4">
               <div className="grid gap-2">
                 <Label>Type *</Label>
-                <div className="flex gap-4">
+                <div className="grid grid-cols-2 gap-3">
                   <button
                     type="button"
                     onClick={() => setFormData({ ...formData, type: "income" })}
-                    className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-lg border-2 transition-all ${
+                    className={`flex items-center justify-center gap-2 px-4 py-3 rounded-lg border-2 transition-all ${
                       formData.type === "income"
                         ? "border-green-600 bg-green-50 text-green-700"
                         : "border-gray-200 hover:border-gray-300"
                     }`}
                   >
-                    <TrendingUp className="h-5 w-5" />
-                    <span className="font-medium">Income</span>
+                    <TrendingUp className="h-4 w-4" />
+                    <span className="font-medium text-sm">Income</span>
                   </button>
                   <button
                     type="button"
                     onClick={() => setFormData({ ...formData, type: "expense" })}
-                    className={`flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-lg border-2 transition-all ${
+                    className={`flex items-center justify-center gap-2 px-4 py-3 rounded-lg border-2 transition-all ${
                       formData.type === "expense"
                         ? "border-red-600 bg-red-50 text-red-700"
                         : "border-gray-200 hover:border-gray-300"
                     }`}
                   >
-                    <TrendingDown className="h-5 w-5" />
-                    <span className="font-medium">Expense</span>
+                    <TrendingDown className="h-4 w-4" />
+                    <span className="font-medium text-sm">Expense</span>
                   </button>
                 </div>
               </div>
@@ -635,7 +635,7 @@ const [formError, setFormError] = useState("")
                 />
               </div>
               <div className="grid gap-2">
-                <Label htmlFor="amount">Amount (?) *</Label>
+                <Label htmlFor="amount">Amount (₱) *</Label>
                 <Input
                   id="amount"
                   type="number"
@@ -706,16 +706,17 @@ const [formError, setFormError] = useState("")
                 <p className="text-sm text-destructive">{formError}</p>
               )}
             </div>
-            <DialogFooter>
+            <DialogFooter className="gap-2 sm:gap-0">
               <Button
                 type="button"
                 variant="outline"
                 onClick={() => setIsDialogOpen(false)}
                 disabled={isSubmitting}
+                className="flex-1 sm:flex-initial"
               >
                 Cancel
               </Button>
-              <Button type="submit" disabled={isSubmitting}>
+              <Button type="submit" disabled={isSubmitting} className="flex-1 sm:flex-initial">
                 {isSubmitting
                   ? "Saving..."
                   : editingIncome

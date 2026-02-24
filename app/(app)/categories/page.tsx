@@ -144,14 +144,14 @@ export default function CategoriesPage() {
   return (
     <div className="space-y-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-3xl font-bold">Categories</h1>
           <p className="text-muted-foreground mt-1">
             Manage your expense categories
           </p>
         </div>
-        <Button onClick={openAddDialog}>
+        <Button onClick={openAddDialog} className="gap-2 w-full sm:w-auto">
           <Plus className="h-4 w-4" />
           Add Category
         </Button>
@@ -159,17 +159,21 @@ export default function CategoriesPage() {
 
       {/* Categories Grid */}
       {isLoading ? (
-        <div className="flex items-center justify-center py-12">
+        <div className="flex items-center justify-center min-h-[400px]">
           <p className="text-muted-foreground">Loading categories...</p>
         </div>
       ) : categories.length === 0 ? (
-        <div className="flex flex-col items-center justify-center py-12 border rounded-lg">
-          <p className="text-muted-foreground mb-4">No categories yet</p>
-          <Button onClick={openAddDialog}>
-            <Plus className="h-4 w-4" />
-            Add Your First Category
-          </Button>
-        </div>
+        <Card>
+          <CardContent className="p-0">
+            <div className="flex flex-col items-center justify-center py-12 px-4">
+              <p className="text-muted-foreground mb-4">No categories yet</p>
+              <Button onClick={openAddDialog} variant="outline" className="gap-2">
+                <Plus className="h-4 w-4" />
+                Add Your First Category
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {categories.map((category) => (
@@ -213,7 +217,7 @@ export default function CategoriesPage() {
 
       {/* Add/Edit Dialog */}
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent>
+        <DialogContent className="sm:max-w-[500px] max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>
               {editingCategory ? "Edit Category" : "Add New Category"}
@@ -224,64 +228,65 @@ export default function CategoriesPage() {
                 : "Create a new category for organizing expenses."}
             </DialogDescription>
           </DialogHeader>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="name">Category Name</Label>
-              <Input
-                id="name"
-                placeholder="e.g., Food, Transport, Entertainment"
-                value={formData.name}
-                onChange={(e) =>
-                  setFormData({ ...formData, name: e.target.value })
-                }
-                required
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="color">Color</Label>
-              <div className="flex items-center gap-3">
+          <form onSubmit={handleSubmit}>
+            <div className="grid gap-4 py-4">
+              <div className="grid gap-2">
+                <Label htmlFor="name">Category Name *</Label>
                 <Input
-                  id="color"
-                  type="color"
-                  value={formData.color}
+                  id="name"
+                  placeholder="e.g., Food, Transport, Entertainment"
+                  value={formData.name}
                   onChange={(e) =>
-                    setFormData({ ...formData, color: e.target.value })
+                    setFormData({ ...formData, name: e.target.value })
                   }
-                  className="w-20 h-10 cursor-pointer"
                   required
                 />
-                <Input
-                  type="text"
-                  value={formData.color}
-                  onChange={(e) =>
-                    setFormData({ ...formData, color: e.target.value })
-                  }
-                  placeholder="#3b82f6"
-                  className="flex-1 font-mono"
-                />
               </div>
-              <p className="text-xs text-muted-foreground">
-                Choose a color to identify this category
-              </p>
+
+              <div className="grid gap-2">
+                <Label htmlFor="color">Color *</Label>
+                <div className="flex items-center gap-3">
+                  <Input
+                    id="color"
+                    type="color"
+                    value={formData.color}
+                    onChange={(e) =>
+                      setFormData({ ...formData, color: e.target.value })
+                    }
+                    className="w-20 h-10 cursor-pointer"
+                    required
+                  />
+                  <Input
+                    type="text"
+                    value={formData.color}
+                    onChange={(e) =>
+                      setFormData({ ...formData, color: e.target.value })
+                    }
+                    placeholder="#3b82f6"
+                    className="flex-1 font-mono"
+                  />
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  Choose a color to identify this category
+                </p>
+              </div>
+
+              {formError && (
+                <p className="text-sm text-destructive">{formError}</p>
+              )}
             </div>
 
-            {formError && (
-              <div className="rounded-md bg-destructive/10 p-3 text-sm text-destructive">
-                {formError}
-              </div>
-            )}
-
-            <DialogFooter>
+            <DialogFooter className="gap-2 sm:gap-0">
               <Button
                 type="button"
                 variant="outline"
                 onClick={() => setIsDialogOpen(false)}
                 disabled={isSubmitting}
+                className="flex-1 sm:flex-initial"
               >
                 Cancel
               </Button>
-              <Button type="submit" disabled={isSubmitting}>
+              <Button type="submit" disabled={isSubmitting} className="flex-1 sm:flex-initial">
                 {isSubmitting
                   ? "Saving..."
                   : editingCategory
