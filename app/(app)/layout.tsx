@@ -80,6 +80,29 @@ export default function AppLayout({
 
   return (
     <div className="flex min-h-screen bg-background">
+      {/* Mobile Header - Fixed at top, only visible on mobile */}
+      <div className="lg:hidden fixed top-0 left-0 right-0 z-50 h-16 bg-card border-b flex items-center justify-between px-4 shadow-sm">
+        <button
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          className="rounded-lg p-2 hover:bg-accent touch-manipulation"
+          aria-label="Toggle menu"
+        >
+          {isMobileMenuOpen ? (
+            <X className="h-6 w-6" />
+          ) : (
+            <Menu className="h-6 w-6" />
+          )}
+        </button>
+        
+        {/* Empty spacer to push title to the right */}
+        <div className="flex-1"></div>
+        
+        <div className="flex items-center gap-2">
+          <Wallet className="h-6 w-6 text-primary" />
+          <span className="font-bold text-lg">Expense Tracker</span>
+        </div>
+      </div>
+
       {/* Sidebar */}
       <aside
         className={`
@@ -156,17 +179,7 @@ export default function AppLayout({
 
       {/* Main Content - Better mobile padding */}
       <main className={`flex-1 relative ${isMobileMenuOpen ? 'overflow-hidden' : 'overflow-auto'}`}>
-        {/* Mobile menu button - Positioned at top of content, scrolls away, hidden when menu is open */}
-        {!isMobileMenuOpen && (
-          <button
-            onClick={() => setIsMobileMenuOpen(true)}
-            className="lg:hidden absolute top-3 left-3 z-50 rounded-lg p-3 bg-card border shadow-lg hover:bg-accent touch-manipulation"
-            aria-label="Toggle menu"
-          >
-            <Menu className="h-5 w-5" />
-          </button>
-        )}
-        <div className="container mx-auto p-4 sm:p-6 lg:p-8 pb-safe pt-16 lg:pt-4">{children}</div>
+        <div className="container mx-auto p-4 sm:p-6 lg:p-8 pb-safe pt-20 lg:pt-8">{children}</div>
       </main>
     </div>
   )

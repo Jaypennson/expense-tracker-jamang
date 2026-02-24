@@ -303,12 +303,16 @@ const [formError, setFormError] = useState("")
       {/* Date Filter Tabs */}
       <Card>
         <CardContent className="pt-6">
-          <div className="flex gap-2 overflow-x-auto pb-2">
+          <div className="flex gap-2 flex-wrap">
             <Button
               variant={dateFilter === 'daily' ? 'default' : 'outline'}
               size="sm"
               onClick={() => setDateFilter('daily')}
-              className="whitespace-nowrap"
+              className={`flex-1 min-w-[100px] ${
+                dateFilter === 'daily' 
+                  ? 'bg-primary text-primary-foreground shadow-md' 
+                  : 'hover:bg-accent'
+              }`}
             >
               Today
             </Button>
@@ -316,7 +320,11 @@ const [formError, setFormError] = useState("")
               variant={dateFilter === 'monthly' ? 'default' : 'outline'}
               size="sm"
               onClick={() => setDateFilter('monthly')}
-              className="whitespace-nowrap"
+              className={`flex-1 min-w-[100px] ${
+                dateFilter === 'monthly' 
+                  ? 'bg-primary text-primary-foreground shadow-md' 
+                  : 'hover:bg-accent'
+              }`}
             >
               This Month
             </Button>
@@ -324,7 +332,11 @@ const [formError, setFormError] = useState("")
               variant={dateFilter === 'yearly' ? 'default' : 'outline'}
               size="sm"
               onClick={() => setDateFilter('yearly')}
-              className="whitespace-nowrap"
+              className={`flex-1 min-w-[100px] ${
+                dateFilter === 'yearly' 
+                  ? 'bg-primary text-primary-foreground shadow-md' 
+                  : 'hover:bg-accent'
+              }`}
             >
               This Year
             </Button>
